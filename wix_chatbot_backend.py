@@ -1,12 +1,17 @@
 from flask import Flask, request, jsonify
+import os
 import openai
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)  # Allow requests from Wix site
 
-# Set your OpenAI API key here
-OPENAI_API_KEY = "your_openai_api_key"
+# Load API Key from Environment Variable
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not OPENAI_API_KEY:
+    print("ERROR: OPENAI_API_KEY is not being read from environment variables!")
+
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 @app.route('/chatbot', methods=['POST'])
